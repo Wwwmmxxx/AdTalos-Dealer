@@ -16,6 +16,7 @@ func main() {
 	request, err := model.NewAdTalosRequest(model.Video1_Cover1)
 	if err != nil {
 		fmt.Println("NewAdTalosRequest failed, err:", err)
+		return
 	}
 
 	response := &model.AdTalosResponse{}
