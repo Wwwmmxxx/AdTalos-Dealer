@@ -17,7 +17,7 @@ func NewOpenRTB(pt PlacementToken) *openrtb2.BidRequest {
 
 	native := NativeRequest{
 		request.Request{
-			Ver:            "",
+			Ver:            "1.2",
 			Layout:         0,
 			AdUnit:         0,
 			Context:        0,
@@ -27,7 +27,7 @@ func NewOpenRTB(pt PlacementToken) *openrtb2.BidRequest {
 			Seq:            0,
 			Assets: []request.Asset{
 				{
-					ID:       0,
+					ID:       1,
 					Required: 1,
 					Img: &request.Image{
 						Type:  native1.ImageAssetTypeIcon,
@@ -48,7 +48,7 @@ func NewOpenRTB(pt PlacementToken) *openrtb2.BidRequest {
 		},
 	}
 
-	_, err := json.Marshal(native)
+	nativeInJson, err := json.Marshal(native)
 	if err != nil {
 		fmt.Println("json.Marshal err:", err)
 		return nil
@@ -56,66 +56,37 @@ func NewOpenRTB(pt PlacementToken) *openrtb2.BidRequest {
 
 	return &openrtb2.BidRequest{
 		ID: uuid.NewString(),
-		Imp: []openrtb2.Imp{{
-			ID:     uuid.NewString(),
-			Metric: nil,
-			Banner: &openrtb2.Banner{
-				Format:   nil,
-				W:        nil,
-				H:        nil,
-				WMax:     0,
-				HMax:     0,
-				WMin:     0,
-				HMin:     0,
-				BType:    nil,
-				BAttr:    nil,
-				Pos:      nil,
-				MIMEs:    nil,
-				TopFrame: 0,
-				ExpDir:   nil,
-				API:      nil,
-				ID:       "",
-				VCm:      0,
-				Ext:      nil,
+		Imp: []openrtb2.Imp{
+			{
+				ID: uuid.NewString(),
+				Native: &openrtb2.Native{
+					Request: string(nativeInJson),
+					Ver:     "1.2",
+				},
+				Instl:       1,
+				TagID:       string(pt),
+				BidFloor:    0,
+				BidFloorCur: "CNY",
 			},
-			//Native: &openrtb2.Native{
-			//	Request: string(nativeInJson),
-			//	Ver:     "",
-			//	API:     nil,
-			//	BAttr:   nil,
-			//	Ext:     nil,
-			//},
-			PMP:               nil,
-			DisplayManager:    "",
-			DisplayManagerVer: "",
-			Instl:             0,
-			TagID:             string(pt),
-			BidFloor:          0,
-			BidFloorCur:       "",
-			ClickBrowser:      0,
-			Secure:            nil,
-			IframeBuster:      nil,
-			Exp:               0,
-			Ext:               nil,
-		}},
-		Site:    nil,
-		App:     nil,
-		Device:  nil,
-		User:    nil,
-		Test:    0,
-		AT:      0,
-		TMax:    0,
-		WSeat:   nil,
-		BSeat:   nil,
-		AllImps: 0,
-		Cur:     nil,
-		WLang:   nil,
-		BCat:    nil,
-		BAdv:    nil,
-		BApp:    nil,
-		Source:  nil,
-		Regs:    nil,
-		Ext:     nil,
+		},
+		App: &openrtb2.App{
+			Name:   "Wwwmmxxx",
+			Bundle: "www.digverity.com",
+			Ver:    "1.0",
+		},
+		Device: &openrtb2.Device{
+			IP: "58.247.129.11",
+			UA: "go-resty/2.7.0 (https://github.com/go-resty/resty)",
+			Geo: &openrtb2.Geo{
+				Lat: 220,
+				Lon: 300,
+			},
+			Make:           "Samsung",
+			Model:          "iphone13",
+			OS:             "ios",
+			OSV:            "15.1",
+			ConnectionType: openrtb2.ConnectionTypeCellularNetwork4G.Ptr(),
+		},
 	}
 
 }

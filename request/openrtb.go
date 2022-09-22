@@ -12,7 +12,7 @@ func OpenRTB25(token string) {
 	// initial param
 	url := fmt.Sprintf("https://api.mobrtb.com/ad/openrtb2/%v", token)
 
-	body := model.NewOpenRTB(model.Pic)
+	body := model.NewOpenRTB(model.Pic1_Icon1_Article2)
 
 	response := &openrtb2.BidResponse{}
 
